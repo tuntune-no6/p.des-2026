@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Essential Product Design Framework</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0f0e0d;
+    --paper: #f5f0e8;
+    --cream: #ede7d5;
+    --rust: #c4431a;
+    --amber: #e8a020;
+    --sage: #4a7c59;
+    --slate: #3d5a73;
+    --warm-grey: #8c8278;
+    --line: #c8bfae;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    padding: 40px 24px 80px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+  .header-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--warm-grey);
+    margin-bottom: 10px;
+  }
+  .header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(42px, 7vw, 80px);
+    line-height: 0.92;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+  }
+  .header h1 span { color: var(--rust); }
+  .header-sub {
+    margin-top: 14px;
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--warm-grey);
+    letter-spacing: 0.03em;
+  }
+
+  /* ── MAIN GRID ── */
+  .canvas {
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* ── CONNECTOR ── */
+  .connector {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    position: relative;
+  }
+  .connector::before {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 50%;
+    width: 2px;
+    background: repeating-linear-gradient(to bottom, var(--line) 0, var(--line) 6px, transparent 6px, transparent 12px);
+  }
+  .connector-arrow {
+    width: 28px; height: 28px;
+    background: var(--ink);
+    clip-path: polygon(50% 100%, 0 30%, 28% 30%, 28% 0, 72% 0, 72% 30%, 100% 30%);
+    z-index: 1;
+  }
+  .connector-arrow.amber { background: var(--amber); }
+  .connector-arrow.sage  { background: var(--sage); }
+  .connector-arrow.slate { background: var(--slate); }
+
+  /* ── LEVEL BLOCK ── */
+  .level-block {
+    border: 2px solid var(--ink);
+    border-radius: 4px;
+    overflow: hidden;
+    background: white;
+  }
+
+  .level-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 24px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .level-badge {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    padding: 4px 10px;
+    border-radius: 2px;
+    border: 1.5px solid currentColor;
+    white-space: nowrap;
+  }
+  .level-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 0.06em;
+  }
+  .level-desc {
+    margin-left: auto;
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--warm-grey);
+    text-align: right;
+    max-width: 200px;
+    line-height: 1.5;
+  }
+
+  /* level colors */
+  .l1 .level-header { background: #fff8f0; }
+  .l1 .level-badge  { color: var(--rust); border-color: var(--rust); }
+  .l1 .level-title  { color: var(--rust); }
+
+  .l2 .level-header { background: #fdf6e3; }
+  .l2 .level-badge  { color: var(--amber); border-color: var(--amber); }
+  .l2 .level-title  { color: var(--amber); }
+
+  .l3 .level-header { background: #f0f5f2; }
+  .l3 .level-badge  { color: var(--sage); border-color: var(--sage); }
+  .l3 .level-title  { color: var(--sage); }
+
+  /* ── STEPS INSIDE LEVEL ── */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    border-top: none;
+  }
+  .step {
+    padding: 20px 22px;
+    border-right: 1.5px solid var(--line);
+    position: relative;
+  }
+  .step:last-child { border-right: none; }
+  .step-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    line-height: 1;
+    color: var(--cream);
+    margin-bottom: 6px;
+  }
+  .step-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+  .step-body {
+    font-size: 12.5px;
+    font-weight: 300;
+    color: #555;
+    line-height: 1.6;
+  }
+  .step-tag {
+    display: inline-block;
+    margin-top: 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    background: var(--cream);
+    padding: 3px 7px;
+    border-radius: 2px;
+    color: var(--warm-grey);
+  }
+
+  /* ── MILESTONE FLAG ── */
+  .milestone {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 22px;
+    background: var(--ink);
+    color: white;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+  }
+  .milestone-icon {
+    font-size: 14px;
+  }
+  .milestone strong { 
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-right: 6px;
+  }
+
+  /* ── CHOICE FORK ── */
+  .fork-wrap {
+    display: flex;
+    gap: 16px;
+    padding: 20px 22px;
+    background: var(--cream);
+    border-top: 1.5px solid var(--line);
+    align-items: flex-start;
+  }
+  .fork-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--warm-grey);
+    margin-right: 6px;
+    white-space: nowrap;
+    margin-top: 2px;
+  }
+  .fork-options {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    flex: 1;
+  }
+  .fork-opt {
+    border: 1.5px solid var(--ink);
+    border-radius: 3px;
+    padding: 8px 14px;
+    font-size: 12px;
+    font-weight: 500;
+    background: white;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .fork-opt .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--rust);
+    flex-shrink: 0;
+  }
+  .fork-opt .dot.amber { background: var(--amber); }
+  .fork-opt .dot.sage  { background: var(--sage); }
+
+  /* ── 3-PILLAR SUCCESS BLOCK ── */
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: none;
+  }
+  .pillar {
+    padding: 24px 20px;
+    border-right: 1.5px solid var(--line);
+    position: relative;
+  }
+  .pillar:last-child { border-right: none; }
+  .pillar-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 64px;
+    line-height: 1;
+    color: var(--cream);
+    position: absolute;
+    top: 12px; right: 14px;
+  }
+  .pillar-icon {
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+  .pillar-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+  }
+  .pillar-body {
+    font-size: 12px;
+    font-weight: 300;
+    color: #555;
+    line-height: 1.65;
+  }
+  .p1 .pillar-title { color: var(--rust); }
+  .p2 .pillar-title { color: var(--slate); }
+  .p3 .pillar-title { color: var(--sage); }
+
+  /* ── NICHE SECTION ── */
+  .niche-block {
+    border: 2px solid var(--ink);
+    border-radius: 4px;
+    overflow: hidden;
+    background: white;
+  }
+  .niche-header {
+    background: var(--ink);
+    color: white;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .niche-header-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.08em;
+  }
+  .niche-header-sub {
+    font-size: 12px;
+    font-weight: 300;
+    opacity: 0.65;
+    margin-left: auto;
+  }
+  .niche-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .niche-item {
+    padding: 20px 22px;
+    border-right: 1.5px solid var(--line);
+  }
+  .niche-item:last-child { border-right: none; }
+  .niche-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    color: var(--warm-grey);
+    margin-bottom: 4px;
+  }
+  .niche-title {
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+  }
+  .niche-body {
+    font-size: 12px;
+    font-weight: 300;
+    color: #555;
+    line-height: 1.65;
+  }
+
+  /* ── KEYNOTES ── */
+  .keynotes {
+    max-width: 960px;
+    margin: 48px auto 0;
+  }
+  .keynotes-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: 0.06em;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .keynotes-title::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: var(--ink);
+  }
+  .kn-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+  }
+  .kn-card {
+    border: 1.5px solid var(--line);
+    border-left: 4px solid var(--ink);
+    border-radius: 3px;
+    padding: 16px 18px;
+    background: white;
+  }
+  .kn-card.rust  { border-left-color: var(--rust); }
+  .kn-card.amber { border-left-color: var(--amber); }
+  .kn-card.sage  { border-left-color: var(--sage); }
+  .kn-card.slate { border-left-color: var(--slate); }
+  .kn-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--warm-grey);
+    margin-bottom: 6px;
+  }
+  .kn-text {
+    font-size: 13.5px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+  .kn-text em {
+    font-style: italic;
+    font-weight: 300;
+    color: #666;
+  }
+
+  /* ── FOOTER ── */
+  .footer-note {
+    max-width: 960px;
+    margin: 40px auto 0;
+    padding: 16px 20px;
+    border: 1.5px dashed var(--line);
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--warm-grey);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .footer-note span { font-size: 16px; }
+
+  /* animations */
+  .level-block, .niche-block, .kn-card {
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fadeUp 0.5s ease forwards;
+  }
+  .level-block:nth-child(1) { animation-delay: 0.1s; }
+  .level-block:nth-child(3) { animation-delay: 0.25s; }
+  .level-block:nth-child(5) { animation-delay: 0.4s; }
+  .niche-block { animation-delay: 0.55s; }
+  .kn-card:nth-child(1) { animation-delay: 0.6s; }
+  .kn-card:nth-child(2) { animation-delay: 0.68s; }
+  .kn-card:nth-child(3) { animation-delay: 0.76s; }
+  .kn-card:nth-child(4) { animation-delay: 0.84s; }
+  .kn-card:nth-child(5) { animation-delay: 0.92s; }
+  .kn-card:nth-child(6) { animation-delay: 1.0s; }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 600px) {
+    .steps, .pillars, .niche-row { grid-template-columns: 1fr; }
+    .step, .pillar, .niche-item { border-right: none; border-bottom: 1.5px solid var(--line); }
+    .step:last-child, .pillar:last-child, .niche-item:last-child { border-bottom: none; }
+    .level-desc { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-label">Video Summary · Flowchart</div>
+  <h1>Essential Product<br/><span>Design Framework</span></h1>
+  <div class="header-sub">If I Started Product Design in 2026 — 3-Level Roadmap</div>
+</div>
+
+<div class="canvas">
+
+  <!-- ══════════════════ LEVEL 1 ══════════════════ -->
+  <div class="level-block l1">
+    <div class="level-header">
+      <div class="level-badge">Level 01</div>
+      <div class="level-title">Getting Started</div>
+      <div class="level-desc">Overcome inertia. Get the idea out of your head and into the physical world.</div>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-title">Capture the Idea</div>
+        <div class="step-body">Pen & paper sketch. Write what it does, how it works, who it's for. Get the full picture out of your head.</div>
+        <div class="step-tag">🧠 Ideation</div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-title">First Prototype</div>
+        <div class="step-body">Use cardboard, foam, wood — anything. If you know CAD, 3D model and print. Rough is fine. Just make something real.</div>
+        <div class="step-tag">✋ Physical</div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-title">Confidence Surge</div>
+        <div class="step-body">The foggy idea is now real. Something magical happens — momentum builds. This is your launchpad.</div>
+        <div class="step-tag">🔥 Momentum</div>
+      </div>
+    </div>
+    <div class="milestone"><span class="milestone-icon">⚑</span><strong>Milestone</strong> You have a physical prototype. The idea exists in the world.</div>
+    <div class="fork-wrap">
+      <div class="fork-label">Choice 1 →</div>
+      <div class="fork-options">
+        <div class="fork-opt"><span class="dot"></span> Hobby path — creative outlet, weekend DIY</div>
+        <div class="fork-opt"><span class="dot amber"></span> Go deeper → Level 2</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector"><div class="connector-arrow amber"></div></div>
+
+  <!-- ══════════════════ LEVEL 2 ══════════════════ -->
+  <div class="level-block l2">
+    <div class="level-header">
+      <div class="level-badge">Level 02</div>
+      <div class="level-title">Getting Better</div>
+      <div class="level-desc">Build your craft deliberately. Make 4–5 products across diverse categories.</div>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-title">Skill Stack</div>
+        <div class="step-body">Learn: user research, tech research, sketching, 3D modeling, rendering, prototyping, DFM, technical drawings.</div>
+        <div class="step-tag">🛠 Craft</div>
+      </div>
+      <div class="step">
+        <div class="step-num">05</div>
+        <div class="step-title">Product Tourism</div>
+        <div class="step-body">One month: furniture. Next: gadget. Then: lamp. Then: vehicle concept. Explore materials, methods, user needs to find your passion.</div>
+        <div class="step-tag">🧭 Explore</div>
+      </div>
+      <div class="step">
+        <div class="step-num">06</div>
+        <div class="step-title">Portfolio + Feedback</div>
+        <div class="step-body">Post on Instagram, LinkedIn, Behance. The feedback loop shows what resonates and accelerates your growth fast.</div>
+        <div class="step-tag">📣 Publish</div>
+      </div>
+    </div>
+    <div class="milestone"><span class="milestone-icon">⚑</span><strong>Milestone</strong> 4–5 diverse products made. A real portfolio. A sense of what excites you.</div>
+    <div class="fork-wrap">
+      <div class="fork-label">Choice 2 →</div>
+      <div class="fork-options">
+        <div class="fork-opt"><span class="dot"></span> Self-taught — YouTube, tutorials, trial & error</div>
+        <div class="fork-opt"><span class="dot amber"></span> University — structured, mentored, connected</div>
+      </div>
+    </div>
+    <div class="fork-wrap" style="border-top: none; padding-top: 0;">
+      <div class="fork-label">Choice 3 →</div>
+      <div class="fork-options">
+        <div class="fork-opt"><span class="dot sage"></span> Join a company → get paid to learn at scale</div>
+        <div class="fork-opt"><span class="dot sage"></span> Launch your own → learn pricing, sales, logistics</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector"><div class="connector-arrow sage"></div></div>
+
+  <!-- ══════════════════ LEVEL 3 ══════════════════ -->
+  <div class="level-block l3">
+    <div class="level-header">
+      <div class="level-badge">Level 03</div>
+      <div class="level-title">Going Pro</div>
+      <div class="level-desc">Design for the real world. Higher stakes. Three things that make any product succeed.</div>
+    </div>
+    <div class="pillars">
+      <div class="pillar p1">
+        <div class="pillar-num">1</div>
+        <div class="pillar-icon">🎯</div>
+        <div class="pillar-title">Problem</div>
+        <div class="pillar-body">Solve a real problem people actually care about. Observe and listen deeply. This part never changes — whether you work for someone or yourself.</div>
+      </div>
+      <div class="pillar p2">
+        <div class="pillar-num">2</div>
+        <div class="pillar-icon">⚙️</div>
+        <div class="pillar-title">Execution</div>
+        <div class="pillar-body">Functional, durable, a joy to use. Every touchpoint matters — unboxing, setup, daily use, repair. Make smart trade-offs within real constraints.</div>
+      </div>
+      <div class="pillar p3">
+        <div class="pillar-num">3</div>
+        <div class="pillar-icon">✦</div>
+        <div class="pillar-title">Story</div>
+        <div class="pillar-body">Why people choose your product over others. Authentic, memorable, emotional. Consistent across design, packaging, website, social, customer service.</div>
+      </div>
+    </div>
+    <div class="milestone"><span class="milestone-icon">⚑</span><strong>Milestone</strong> You can launch real products. All three pillars aligned = market success.</div>
+  </div>
+
+</div><!-- /canvas -->
+
+<!-- ══════════════════ NICHE FINDER ══════════════════ -->
+<div style="max-width:960px; margin: 40px auto 0;">
+  <div class="niche-block">
+    <div class="niche-header">
+      <div class="niche-header-title">How to Find Your Niche</div>
+      <div class="niche-header-sub">3 approaches — use all three together</div>
+    </div>
+    <div class="niche-row">
+      <div class="niche-item">
+        <div class="niche-num">APPROACH 01</div>
+        <div class="niche-title">Follow Curiosity</div>
+        <div class="niche-body">What products do you geek out about? What do you own — and why? Natural interests give you stamina through challenges and resistance to peer pressure.</div>
+      </div>
+      <div class="niche-item">
+        <div class="niche-num">APPROACH 02</div>
+        <div class="niche-title">Leverage Background</div>
+        <div class="niche-body">What insider knowledge do you have? A healthcare worker sees problems doctors face. A serious biker spots what others miss. Unique experience = unfair advantage.</div>
+      </div>
+      <div class="niche-item">
+        <div class="niche-num">APPROACH 03</div>
+        <div class="niche-title">Read the Market</div>
+        <div class="niche-body">Find growing markets where your skill set makes a difference. Today: robotics, AI companies needing human-centered design. Or: marketing-driven fun products.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ KEYNOTE TAKEAWAYS ══════════════════ -->
+<div class="keynotes">
+  <div class="keynotes-title">Keynote Takeaways</div>
+  <div class="kn-grid">
+    <div class="kn-card rust">
+      <div class="kn-label">On starting</div>
+      <div class="kn-text">The biggest hurdle is <em>not starting</em>. A cardboard prototype is infinitely better than a perfect idea that stays in your head.</div>
+    </div>
+    <div class="kn-card amber">
+      <div class="kn-label">On learning</div>
+      <div class="kn-text">Tutorials teach skills in isolation. What you really need is a <em>workflow</em> — a process that connects idea → concept → prototype → product.</div>
+    </div>
+    <div class="kn-card slate">
+      <div class="kn-label">On exploration</div>
+      <div class="kn-text">"Product Tourism" is essential, not a detour. Designing across categories is how you discover what you're truly passionate about.</div>
+    </div>
+    <div class="kn-card sage">
+      <div class="kn-label">On going pro</div>
+      <div class="kn-text">Work for a company first. <em>You get paid to learn</em> how products are built at scale — with engineers, marketers, and suppliers.</div>
+    </div>
+    <div class="kn-card rust">
+      <div class="kn-label">On success</div>
+      <div class="kn-text">Problem + Execution + Story. Get all three right and any product can succeed — regardless of path taken.</div>
+    </div>
+    <div class="kn-card amber">
+      <div class="kn-label">On clarity</div>
+      <div class="kn-text"><em>"The act of making clarifies your thinking."</em> Your niche reveals itself through making, not planning. Start now — find your niche later.</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer-note" style="max-width:960px; margin:32px auto 0;">
+  <span>🎬</span>
+  Summary of: <strong>"If I Started Product Design in 2026, I'd Do This"</strong> — 8 years of experience condensed into a 3-level framework covering 3 key choices, 3 success pillars, and 3 niche-finding approaches.
+</div>
+
+</body>
+</html>
